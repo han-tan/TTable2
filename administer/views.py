@@ -47,7 +47,7 @@ def teacher_login(request):
         username = request.POST.get('username')
         passed = request.POST.get('pwd')
         print(username,passed)
-        print(Teacher.objects.name)
+        # print(Teacher.objects.name)
         try:
             user = Teacher.objects.get(name=username)
         except:
@@ -165,4 +165,21 @@ def page_not_found(request):
 
 def server_error(request):
     return render(request, 'page_500.html')
+
+
+
+def a_task(request,pid):
+    print(pid)
+    stu_task = StudentTask.objects.get(studennt_id=pid)
+
+    stu_task2_id= stu_task.task_id
+    task = Task.objects.get(id=stu_task2_id)
+    stu_name = task.task_name
+    print(stu_name)
+    stu_whether_complete = stu_task.whether_complete
+    if stu_whether_complete=='否':
+        complete = 50
+    else:
+        complete = 100
+    return render(request,'a_task.html',{"stu_task":stu_name,"stu_name":stu_whether_complete,'complete':complete})
 

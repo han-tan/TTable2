@@ -146,9 +146,9 @@ class Student(models.Model):
 
 
 class StudentTask(models.Model):
-    id = models.IntegerField(primary_key=True)
-    task_id = models.IntegerField(blank=True, null=True)
+    task = models.ForeignKey('Task', models.DO_NOTHING, blank=True, null=True)
     whether_complete = models.CharField(max_length=2, blank=True, null=True)
+    studennt = models.ForeignKey(Student, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False

@@ -17,4 +17,5 @@ urlpatterns = [
     path('student_task_task/',views.student_task_task,name='student_task_task'),
     path('cancelled',views.cancelled,name='cancelled'),
     path('check/',views.check,name='check'),
+    path('a_task/<pid>',views.a_task,name='a_task'),
 ]
