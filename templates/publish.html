@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-zh_CN.min.js"></script>
+    <script type="text/javascript">
+        tinyMCE.init({
+            'mode':'textareas',
+            'theme':'advanced',
+            'width':500,
+            'height':400
+        });
+    </script>
+
+</head>
+<body>
+<div class="row">
+            <nav class="navbar navbar-inverse">
+
+                    <div class="col-xs-6">
+                        <a class="navbar-brand" href="">Welcome</a>
+                    </div>
+
+
+            </nav>
+   <form method="post" action="{% url 'administer:publish' %}">
+
+
+    <div style="margin-left: 30%">
+              <input type="text" id='username' name='task_name' class="form-control" placeholder="任务名称" required>
+        <textarea class="form-control" rows="3" name='gcontent' placeholder='内容'></textarea>
+
+        <br>
+        <div class="div_save">
+            <button type="submit" class="btn btn-primary btn_save_record">save</button>
+        </div>
+        <hr>
+    </div>
+
+   </form>
+
+</div>
+</body>
+</html>

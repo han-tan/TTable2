@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        tinyMCE.init({
+            'mode':'textareas',
+            'theme':'advanced',
+            'width':200,
+            'height':270
+        });
+    </script>
+</head>
+<body>
+<div class="row">
+            <nav class="navbar navbar-inverse">
+
+                    <div class="col-xs-6">
+                        <a class="navbar-brand" href="">Welcome</a>
+                    </div>
+                    <div class="col-xs-6">
+
+                    </div>
+
+            </nav>
+    </div>
+<div class="modal-dialog" style="margin-top: 10%;">
+        <div class="modal-content">
+
+            <div class="modal-footer">
+                    <div class="form-group">
+                        <a type="button" class="btn btn-primary form-control " href="{% url 'administer:publish' %}" id="btnm">发布作业</a>
+                    </div>
+                <div class="form-group">
+                    <a type="button" class="btn btn-primary form-control " href="{% url 'administer:viewjob' %}" id="btnm">查看作业</a>
+                </div>
+
+
+            </div>
+
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+
+
+</body>
+</html>

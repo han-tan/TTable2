@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from v3.bootcss.com/examples/signin/ by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 18 Dec 2013 02:07:10 GMT -->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+  <title>注册</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+
+
+  <!-- Custom styles for this template -->
+  <link href="css/signin.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy this line! -->
+  <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+  <div class="container">
+
+    <nav class="navbar navbar-default" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">注册学生信息</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active">
+            <a href="{% url 'administer:teacher_login' %}">老师登录</a>
+          </li>
+
+        </ul>
+          <ul class="nav navbar-nav">
+          <li class="active">
+            <a href="{% url 'administer:student_login' %}">学生登录</a>
+          </li>
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a class="btn btn-link" href="{% url 'administer:register' %}" role="button">学生注册</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </nav>
+
+    <form class="form-signin" role="form" action="{% url 'administer:register' %}" method="post">
+
+
+
+      <input type="text" id='username' name='user_name' class="form-control" placeholder="姓名" required>
+        <span class='msg'>**</span>
+      <input type="password" name='user_password' id='pwd' class="form-control" placeholder="密码" required>
+       <input type="text" name='phone' id="phone" value='18235696161' class="form-control" placeholder="电话" required AUTOCOMPLETE="off">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
+               <input type="text" name='smscode' id='smscode' class="form-control" placeholder="短信验证码" required>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6	">
+               <button class="btn btn-lg btn-info btn-block" id="sendsms" type='button' style='font-size:14px;'>获取送验证码</button>
+            </div>
+      </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2 style='color:red' id="msg">**</h2>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+      </div>
+    </form>
+
+  </div>
+  <!-- /container -->
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script>
+//短信验证
+$(function(){
+    $('form input').blur(function(){
+			//用户名
+			if($(this).is('#username')){
+				console.log('用户名....');
+				nam=$(this).val()
+				$(this).parent().find('.msg').remove()
+				if(nam==''||nam.length>6){
+					$(this).after("<span class='msg'>请填写姓名</span>")
+				}else{
+				        var uname = $("#username").val();
+                        $.ajax({
+                         type: "GET",
+                         url: "http://127.0.0.1:8000/check/?uname="+uname,
+                         success: function(msg){
+                           console.log( "Data Saved: " + msg );
+                           //处理结果
+                           //转化为json
+                           var json = eval("("+msg+")");
+                           if(json.result=='false'){
+                             $('#username').after("<span class='msg'>名字已有请添加数字用于判断</span>")
+                           }else{
+                              $('#username').after("<span class='msg'>可注册</span>")
+                           }
+                         }
+                  });}
+				}
+
+		});
+
+
+	$("#smscode").change(function(){
+		console.log('开始验证.....')
+		var phone = $("#phone").val()
+		var code = $(this).val()
+		// 2 ajax
+		$.ajax({
+			type:'get',
+			url:'/check_sms/',
+			data:'phone='+phone+'&code='+code,
+			success:function(msg){
+				//结果已经统一规整为json对象了,不需要转换了
+				console.log('结果就是对象'+typeof(msg))
+				if(msg.code=='200'){
+					$('#msg').html('验证码正确')
+				}else{
+					$('#msg').html('验证码输入错误')
+				}
+			},
+			error:function(resp){
+				console.log(resp.status)
+				alert('连接服务器失败')
+			}
+		})
+	})
+})
+//end 短信验证
+</script>
+
+ <script>
+$(function(){
+
+
+ var btn1 = $('#sendsms')
+ var count=5; // 倒计时数量 一般为60秒!
+ var timer =null; //定时器
+ //事件
+btn1.click(function(){
+ 	phone = $('#phone').val()
+ 	if(phone==''){
+ 		alert('请输入电话号码')
+ 		return false;
+ 	}
+	//Ajax发送短信
+	$.ajax({
+		type:'get',
+		url:'send_sms/',
+		data:'phone='+phone,
+		success:function(msg){
+			console.log("成功返回结果:"+msg)
+			obj = eval("("+msg+")")
+			if(obj.Message=="OK"){
+				$("#msg").html("发送成功")
+			}else{
+				$("#msg").html("发送失败")
+			}
+		},
+		error:function(resp){
+			console.log(resp.status)
+			alert('连接后台失败')
+		}
+	})
+	//end 发送短信
+
+
+ 	//禁用
+ 	$(this).attr("disabled",'true')
+ 	var _this=  $(this);
+ 	//定时器实现时间每次减少1
+ 	timer = setInterval(function(){
+ 		count--;
+ 		console.log("剩余时间:"+count);
+ 		if(count>=0){
+ 			//this表示对象!!!! 表示定时器!!!!
+ 			//this.innerHTML="时间剩余"+ count+"秒";
+ 			_this.html(count+"秒s后重发")
+ 		}else{
+ 			_this.disabled = false;
+ 			clearInterval(timer);
+ 			_this.html("重新发送")
+ 			count=5
+ 			$('#sendsms').removeAttr("disabled")
+ 		}
+	 },1000);
+})
+//短信验证end
+
+})
+</script>
+</body>
+
+</html>
